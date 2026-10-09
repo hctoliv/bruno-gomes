@@ -45,7 +45,18 @@
     <a href="#dicas">dicas</a>
   </nav>
   <a class="hd__cta" href="#contato">contato <svg><use href="#arrow"/></svg></a>
+  <button class="hd__menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
 </header>
+
+<nav class="menu" id="menu" aria-label="Menu" hidden>
+  <a href="#rotacao"><i class="mono">01</i>fits</a>
+  <a href="#futebol"><i class="mono">02</i>futebol</a>
+  <a href="#humor"><i class="mono">03</i>humor</a>
+  <a href="#dicas"><i class="mono">04</i>dicas</a>
+  <a href="#publis"><i class="mono">05</i>publis</a>
+  <a href="#contato"><i class="mono">06</i>contato</a>
+  <p class="menu__foot mono"><a href="https://www.instagram.com/brnogomes/" target="_blank" rel="noopener">@brnogomes</a> · Moda • Humor • Dicas • Futebol</p>
+</nav>
 
 <main>
 
@@ -57,11 +68,11 @@
     <span class="hero__line">GOMES</span>
   </div>
   <div class="hero__stage">
-    <img class="hero__fit is-on" src="img/fit-rosa.webp" alt="Bruno Gomes de camisa rosa listrada, bermuda jeans preta larga e boné" width="425" height="1500">
-    <img class="hero__fit" src="img/fit-conjunto.webp" alt="Bruno Gomes de conjunto de moletom rosa" width="520" height="1500" loading="lazy">
-    <img class="hero__fit" src="img/fit-camo.webp" alt="Bruno Gomes de jaqueta preta, calça camuflada larga e óculos laranja" width="679" height="1500" loading="lazy">
-    <img class="hero__fit" src="img/fit-bege.webp" alt="Bruno Gomes de jaqueta e calça bege com gravata" width="551" height="1500" loading="lazy">
-    <img class="hero__fit" src="img/fit-azul.webp" alt="Bruno Gomes de conjunto esportivo azul" width="515" height="1500" loading="lazy">
+    <img class="hero__fit is-on" src="img/fit-rosa.webp" alt="Bruno Gomes de camisa rosa listrada, bermuda jeans preta larga e boné" width="428" height="1500">
+    <img class="hero__fit" src="img/fit-conjunto.webp" alt="Bruno Gomes de conjunto de moletom rosa" width="521" height="1500" loading="lazy">
+    <img class="hero__fit" src="img/fit-camo.webp" alt="Bruno Gomes de moletom preto com capuz, calça camuflada larga, gorro e óculos laranja" width="614" height="1500" loading="lazy">
+    <img class="hero__fit" src="img/fit-bege.webp" alt="Bruno Gomes de jaqueta e calça bege com gravata" width="552" height="1500" loading="lazy">
+    <img class="hero__fit" src="img/fit-azul.webp" alt="Bruno Gomes de conjunto esportivo azul" width="517" height="1500" loading="lazy">
   </div>
 
   <div class="hero__bio">
@@ -80,7 +91,8 @@
     <button class="fitbtn fitbtn--prev" data-fit-prev aria-label="Fit anterior"><svg><use href="#arrow"/></svg></button>
     <button class="fitbtn" data-fit-next aria-label="Próximo fit">trocar o fit <svg><use href="#arrow"/></svg></button>
   </div>
-  <p class="hero__hint mono">arrasta, clica ou usa ← →</p>
+  <div class="hero__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i></div>
+  <p class="hero__hint mono"><span class="only-fine">arrasta, clica ou usa ← →</span><span class="only-touch">arrasta pro lado pra trocar o fit</span></p>
 </section>
 
 <div class="marquee" data-hd="dark" aria-hidden="true">
@@ -96,9 +108,10 @@
     <div class="rot__head">
       <p class="mono kick">// rotação</p>
       <h2 class="rot__title">pegou<br>a visão?</h2>
-      <p class="rot__lead">os fits que passaram pelo feed. passa o mouse ou toca na foto pra ver o resto do carrossel.</p>
+      <p class="rot__lead">os fits que passaram pelo feed. <span class="only-fine">passa o mouse ou clica na foto pra ver o resto do carrossel.</span><span class="only-touch">toca na foto pra ver o resto do carrossel, arrasta pro lado pros outros looks.</span></p>
       <div class="rot__progress"><span></span></div>
     </div>
+    <p class="swipe mono only-touch" aria-hidden="true"><em><b data-rot-n>01</b> / 07</em> <span>arrasta →</span></p>
     <div class="rot__track">
 
       <article class="look" style="--c:#d3a9c3">
@@ -192,6 +205,7 @@
     </div>
   </div>
 
+  <p class="swipe swipe--ink mono only-touch" aria-hidden="true">pro 5 · arrasta →</p>
   <div class="fut__grid">
     <figure class="reel" data-reel>
       <video src="video/clareou.mp4" poster="video/clareou.jpg" muted loop playsinline preload="none" data-autoplay></video>
@@ -218,7 +232,7 @@
   <div class="hum__head">
     <p class="mono kick">// humor</p>
     <h2 class="hum__title">to<br>errado?</h2>
-    <p class="hum__lead">toca no vídeo pra ligar o som.</p>
+    <p class="hum__lead">toca no vídeo pra ligar o som.<span class="only-touch"> arrasta pro lado pros outros.</span></p>
   </div>
   <div class="hum__row">
     <figure class="reel reel--sound" data-reel>
@@ -276,7 +290,7 @@
       <blockquote>um dia, aquilo que hoje parece pequeno será motivo de orgulho.</blockquote>
       <span class="mono card__n">04 / 05</span>
     </article>
-    <article class="card" style="--bg:#d3a9c3;--ink:#121110">
+    <article class="card" style="--bg:#d3a9c3;--fg:#121110">
       <img src="img/frase-inspira.jpg" alt="Bruno com uma caixa da Bershka" loading="lazy">
       <blockquote>quem insiste hoje. inspira alguém amanhã.</blockquote>
       <span class="mono card__n">05 / 05</span>

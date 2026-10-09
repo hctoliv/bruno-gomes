@@ -91,6 +91,7 @@
     heroEl.style.setProperty('--fit', f.c);
     document.querySelector('meta[name=theme-color]').content = f.c;
     idxEl.textContent = String(cur + 1).padStart(2, '0');
+    $$('.hero__dots i').forEach((d, k) => d.classList.toggle('is-on', k === cur));
     capEl.textContent = f.cap; creditEl.textContent = f.credit;
     if (motion) gsap.fromTo('.hero__label', { rotate: -4, y: -10 }, { rotate: 3, y: 0, duration: 1.1, ease: 'elastic.out(1, .4)' });
   };
@@ -147,6 +148,7 @@
     hdZones.forEach(z => { const r = z.getBoundingClientRect(); if (r.top <= 30 && r.bottom > 30) theme = z.dataset.hd; });
     hd.classList.toggle('is-dark', theme === 'light');
     const y = scrollY;
+    hd.classList.toggle('is-solid', y > innerHeight * .8);
     hd.classList.toggle('is-hidden', y > lastY && y > 160 && !document.body.classList.contains('menu-open'));
     lastY = y;
   };
@@ -223,7 +225,7 @@
   /* ================= futebol: janela abre pra tela cheia ================= */
   if (motion) {
     gsap.fromTo('.fut__frame',
-      { clipPath: 'inset(18% 30% 18% 30% round 8px)' },
+      { clipPath: () => desk() ? 'inset(18% 30% 18% 30% round 8px)' : 'inset(10% 8% 10% 8% round 8px)' },
       { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none',
         scrollTrigger: { trigger: '.fut__window', start: 'top top', end: '55% top', scrub: true } });
     gsap.from('.fut__big', { yPercent: 40, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.fut__window', start: '30% top', end: '60% top', scrub: true } });
@@ -244,7 +246,7 @@
   cards.forEach((c, i) => c.style.setProperty('--i', i));
   if (motion) {
     cards.forEach((c, i) => {
-      if (i === cards.length - 1) return;
+      if (i === cards.length - 1 || !desk()) return;
       gsap.to(c, { scale: .93, filter: 'brightness(.7)', ease: 'none',
         scrollTrigger: { trigger: cards[i + 1], start: 'top 75%', end: 'top 15%', scrub: true } });
     });
@@ -268,6 +270,46 @@
       b.addEventListener('mousemove', e => { tx = e.clientX + 30; ty = e.clientY - 180; });
     });
   }
+
+  /* ================= menu mobile ================= */
+  const menu = $('#menu'), menuBtn = $('.hd__menu');
+  const setMenu = open => {
+    document.body.classList.toggle('menu-open', open);
+    menuBtn.setAttribute('aria-expanded', open);
+    menuBtn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    if (open) { menu.hidden = false; lenis && lenis.stop(); }
+    else { lenis && lenis.start(); }
+  };
+  menuBtn.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+  $$('a', menu).forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  /* ================= carrossel da rotação no toque: contador ================= */
+  const rotTrack = $('.rot__track'), rotN = $('[data-rot-n]');
+  rotTrack.addEventListener('scroll', () => {
+    if (desk()) return;
+    const items = $$('.look', rotTrack), mid = rotTrack.scrollLeft + rotTrack.clientWidth / 2;
+    let best = 0, bd = 1e9;
+    items.forEach((it, k) => { const d = Math.abs(it.offsetLeft + it.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = k; } });
+    rotN.textContent = String(best + 1).padStart(2, '0');
+  }, { passive: true });
+
+  /* ================= publis no celular: toque abre o vídeo ================= */
+  $$('.brand').forEach(b => {
+    const wrap = document.createElement('div');
+    wrap.className = 'brand__vid';
+    wrap.innerHTML = '<div><video muted loop playsinline preload="none"></video></div>';
+    b.append(wrap);
+    const v = $('video', wrap);
+    b.addEventListener('click', () => {
+      if (desk() && fine) return;
+      const open = !b.classList.contains('is-open');
+      $$('.brand.is-open').forEach(o => { if (o !== b) { o.classList.remove('is-open'); $('.brand__vid video', o).pause(); } });
+      b.classList.toggle('is-open', open);
+      if (open) { if (!v.src) v.src = b.dataset.preview; v.play().catch(() => {}); } else v.pause();
+      setTimeout(() => hasGsap && ScrollTrigger.refresh(), 550);
+    });
+  });
 
   /* ================= contato ================= */
   const mailBtn = $('[data-copy]');
